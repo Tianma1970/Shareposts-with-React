@@ -1,0 +1,46 @@
+import React, { useEffect, useState } from "react"
+import Axios from "axios"
+import { useParams, Link } from "react-router-dom"
+
+//components
+import LoadingDotsIcon from "./LoadingDotsIcon"
+
+function ProfileFollowing(props) {
+  //we need to generate a token if we cancel our Request
+  const ourRequest = Axios.CancelToken.source()
+  const { username } = useParams()
+  const [isLoading, setIsLoading] = useState(true)
+  const [posts, setPosts] = useState([])
+
+  useEffect(() => {
+    async function fetchPosts() {
+      try {
+        const response = await Axios.get(`/profile/${username}/following`)
+        setPosts(response.data)
+        setIsLoading(false)
+      } catch (e) {
+        console.log("There was an error!")
+      }
+    }
+    fetchPosts()
+    return () => {
+      ourRequest.cancel()
+    }
+  }, [username])
+
+  if (isLoading) return <LoadingDotsIcon />
+  return (
+    <div className="list-group">
+      {posts.map((follower, index) => {
+        return (
+          <Link key={index} to={`/profile/${follower.username}`} className="list-group-item list-group-item-action">
+            <img className="avatar-tiny" src={follower.avatar} />
+            {follower.username}
+          </Link>
+        )
+      })}
+    </div>
+  )
+}
+
+export default ProfileFollowing
