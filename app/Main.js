@@ -22,6 +22,7 @@ import FlashMessages from "./components/FlashMessages"
 import NotFound from "./components/NotFound"
 import Search from "./components/Search"
 import { CSSTransition } from "react-transition-group"
+import Chat from "./components/Chat"
 
 function Main() {
   const initialState = {
@@ -103,6 +104,7 @@ function Main() {
           <CSSTransition timeout={330} in={state.isSearchOpen} classNames="search-overlay" unmountOnExit>
             <Search />
           </CSSTransition>
+          <Chat />
           <Footer />
         </BrowserRouter>
       </DispatchContext.Provider>
