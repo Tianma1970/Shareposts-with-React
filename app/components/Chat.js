@@ -1,13 +1,15 @@
 import React, { useEffect, useContext } from "react"
 import StateContext from "../StateContext"
+import DispatchContext from "../DispatchContext"
 
 function Chat() {
   const appState = useContext(StateContext)
+  const appDispatch = useContext(DispatchContext)
   return (
     <div id="chat-wrapper" className={"chat-wrapper shadow border-top border-left border-right " + (appState.isChatOpen ? "chat-wrapper--is-visible" : "")}>
       <div className="chat-title-bar bg-primary">
         Chat
-        <span className="chat-title-bar-close">
+        <span onClick={() => appDispatch({ type: "closeChat" })} className="chat-title-bar-close">
           <i className="fas fa-times-circle"></i>
         </span>
       </div>
