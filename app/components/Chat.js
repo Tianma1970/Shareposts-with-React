@@ -1,10 +1,17 @@
-import React, { useEffect, useContext } from "react"
+import React, { useEffect, useContext, useRef } from "react"
 import StateContext from "../StateContext"
 import DispatchContext from "../DispatchContext"
 
 function Chat() {
+  const chatField = useRef(null)
   const appState = useContext(StateContext)
   const appDispatch = useContext(DispatchContext)
+
+  useEffect(() => {
+    if (appState.isChatOpen) {
+      chatField.current.focus()
+    }
+  }, [appState.isChatOpen])
   return (
     <div id="chat-wrapper" className={"chat-wrapper shadow border-top border-left border-right " + (appState.isChatOpen ? "chat-wrapper--is-visible" : "")}>
       <div className="chat-title-bar bg-primary">
@@ -36,7 +43,7 @@ function Chat() {
         </div>
       </div>
       <form id="chatForm" className="chat-form border-top">
-        <input type="text" className="chat-field" id="chatField" placeholder="Type a message…" autoComplete="off" />
+        <input ref={chatField} type="text" className="chat-field" id="chatField" placeholder="Type a message…" autoComplete="off" />
       </form>
     </div>
   )
