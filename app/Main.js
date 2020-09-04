@@ -33,7 +33,8 @@ function Main() {
       username: localStorage.getItem("complexappUsername"),
       avatar: localStorage.getItem("complexappAvatar")
     },
-    isSearchOpen: false
+    isSearchOpen: false,
+    isChatOpen: false
   }
   function ourReducer(draft, action) {
     switch (action.type) {
@@ -52,6 +53,12 @@ function Main() {
         return
       case "closeSearch":
         draft.isSearchOpen = false
+        return
+      case "toggleChat":
+        draft.isSearchOpen = !isChatOpen
+        return
+      case "closeChat":
+        draft.isChatOpen = false
         return
     }
   }
