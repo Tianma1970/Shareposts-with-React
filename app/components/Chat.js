@@ -4,7 +4,7 @@ import StateContext from "../StateContext"
 function Chat() {
   const appState = useContext(StateContext)
   return (
-    <div id="chat-wrapper" className={"chat-wrapper shadow border-top border-left border-right" + (appState.isChatOpen ? "chat-wrapper--is-visible" : "")}>
+    <div id="chat-wrapper" className={"chat-wrapper shadow border-top border-left border-right " + (appState.isChatOpen ? "chat-wrapper--is-visible" : "")}>
       <div className="chat-title-bar bg-primary">
         Chat
         <span className="chat-title-bar-close">

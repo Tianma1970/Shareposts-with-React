@@ -55,7 +55,7 @@ function Main() {
         draft.isSearchOpen = false
         return
       case "toggleChat":
-        draft.isSearchOpen = !isChatOpen
+        draft.isChatOpen = !draft.isChatOpen
         return
       case "closeChat":
         draft.isChatOpen = false
