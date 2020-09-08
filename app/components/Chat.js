@@ -2,6 +2,11 @@ import React, { useEffect, useContext, useRef } from "react"
 import StateContext from "../StateContext"
 import DispatchContext from "../DispatchContext"
 import { useImmer } from "use-immer"
+//in order to establish two way communication we need to install socket.io-client
+import io from "socket.io-client"
+
+// we need to establish a connection between our browser and the server
+const socket = io("http://localhost:8080")
 
 function Chat() {
   const chatField = useRef(null)
@@ -18,6 +23,17 @@ function Chat() {
     }
   }, [appState.isChatOpen])
 
+  //FOR OUR CHAT. We only want to run it the first time the component renders. That's why the dependency array is empty
+  useEffect(() => {
+    //the first argument in socket.on is the name the server emitted to us. The second argument is a function that runs everytime it happens
+    socket.on("chatFromServer", message => {
+      //we want to update our state
+      setState(draft => {
+        draft.chatMessages.push(message)
+      })
+    })
+  }, [])
+
   function handleFieldChange(e) {
     const value = e.target.value
     setState(draft => {
@@ -27,6 +43,7 @@ function Chat() {
   function handleSubmit(e) {
     e.preventDefault()
     //send message to Chat server
+    socket.emit("chatFromBrowser", { message: state.fieldValue, token: appState.user.token })
 
     //we want the field to become blank after typing
     setState(draft => {
@@ -69,7 +86,7 @@ function Chat() {
               <div className="chat-message">
                 <div className="chat-message-inner">
                   <a href="#">
-                    <strong>{message.username}</strong>
+                    <strong>{message.username}:</strong>{" "}
                   </a>
                   {message.message}
                 </div>
