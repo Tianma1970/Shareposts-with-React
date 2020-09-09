@@ -11,6 +11,9 @@ const socket = io("http://localhost:8080")
 
 function Chat() {
   const chatField = useRef(null)
+  // we want to come to the chatfield in case there are many messages. We have to set ref={chatLog}} (JSX line 79)
+  //we need to create a reference which makes the we can see the writing area in case of many chat messages
+  const chatLog = useRef(null)
   const appState = useContext(StateContext)
   const appDispatch = useContext(DispatchContext)
   const [state, setState] = useImmer({
@@ -34,6 +37,11 @@ function Chat() {
       })
     })
   }, [])
+
+  //the scrollbar in Chatwindow
+  useEffect(() => {
+    chatLog.current.scrollTop = chatLog.current.scrollHeight
+  }, [state.chatMessages]) //anytime the state changes through a new new message pushed on this collection we want the chatwindow scrolled down to its button position
 
   function handleFieldChange(e) {
     const value = e.target.value
