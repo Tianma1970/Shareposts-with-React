@@ -74,12 +74,13 @@ function Chat() {
           <i className="fas fa-times-circle"></i>
         </span>
       </div>
-      <div id="chat" className="chat-log">
+
+      <div id="chat" className="chat-log" ref={chatLog}>
         {state.chatMessages.map((message, index) => {
           //we can need an if statement instead of a ternary operator because we are within an arrow function
           if (message.username == appState.user.username) {
             return (
-              <div className="chat-self">
+              <div key={index} className="chat-self">
                 <div className="chat-message">
                   <div className="chat-message-inner">{message.message}</div>
                 </div>
