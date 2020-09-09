@@ -34,7 +34,9 @@ function Main() {
       avatar: localStorage.getItem("complexappAvatar")
     },
     isSearchOpen: false,
-    isChatOpen: false
+    isChatOpen: false,
+    //We want to see the number of Messages. We can increament the number with one in our Reducer (Line 65)
+    unreadChatCount: 0
   }
   function ourReducer(draft, action) {
     switch (action.type) {
@@ -59,6 +61,12 @@ function Main() {
         return
       case "closeChat":
         draft.isChatOpen = false
+        return
+      case "incrementUnreadChatCount":
+        draft.unreadChatCount++
+        return
+      case "clearUnreadChatCount":
+        draft.unreadChatCount = 0
         return
     }
   }

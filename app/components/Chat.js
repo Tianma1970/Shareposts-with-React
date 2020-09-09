@@ -24,6 +24,7 @@ function Chat() {
   useEffect(() => {
     if (appState.isChatOpen) {
       chatField.current.focus()
+      appDispatch({ type: "clearUnreadChatCount" })
     }
   }, [appState.isChatOpen])
 
@@ -38,9 +39,14 @@ function Chat() {
     })
   }, [])
 
-  //the scrollbar in Chatwindow
   useEffect(() => {
+    //the scrollbar in ChatWindow
     chatLog.current.scrollTop = chatLog.current.scrollHeight
+    //do we have ChatMessages?
+    if (state.chatMessages.length && !appState.isChatOpen) {
+      //appState; the global property
+      appDispatch({ type: "incrementUnreadChatCount" })
+    }
   }, [state.chatMessages]) //anytime the state changes through a new new message pushed on this collection we want the chatwindow scrolled down to its button position
 
   function handleFieldChange(e) {
