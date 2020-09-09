@@ -2,6 +2,7 @@ import React, { useEffect, useContext, useRef } from "react"
 import StateContext from "../StateContext"
 import DispatchContext from "../DispatchContext"
 import { useImmer } from "use-immer"
+import { Link } from "react-router-dom"
 //in order to establish two way communication we need to install socket.io-client
 import io from "socket.io-client"
 
@@ -79,15 +80,15 @@ function Chat() {
             )
           }
           return (
-            <div className="chat-other">
-              <a href="#">
+            <div key={index} className="chat-other">
+              <Link to={`profile/${message.username}`}>
                 <img className="avatar-tiny" src={message.avatar} />
-              </a>
+              </Link>
               <div className="chat-message">
                 <div className="chat-message-inner">
-                  <a href="#">
-                    <strong>{message.username}:</strong>{" "}
-                  </a>
+                  <Link to={`profile/${message.username}`}>
+                    <strong>{message.username}: </strong>
+                  </Link>
                   {message.message}
                 </div>
               </div>
