@@ -47,6 +47,11 @@ function HomeGuest() {
           draft.username.hasErrors = true
           draft.username.message = "The username cannot exceed 30 characters"
         }
+        //regular expression for username only contains a-z, A-Z and 0-9 the test method returns a value of true or false
+        if (draft.username.value && !/^([a-zA-Z0-9]+)$/.test(draft.username.value)) {
+          draft.username.hasErrors = true
+          draft.username.message = "username can only contain numbers and letters"
+        }
         return
       case "usernameAfterDelay":
         return
