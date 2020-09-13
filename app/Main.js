@@ -26,7 +26,7 @@ import Chat from "./components/Chat"
 
 function Main() {
   const initialState = {
-    loggedIn: Boolean(localStorage.getItem("complexAppToken")),
+    loggedIn: Boolean(localStorage.getItem("complexappToken")),
     flashMessages: [],
     user: {
       token: localStorage.getItem("complexappToken"),
