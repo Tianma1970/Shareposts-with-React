@@ -7,9 +7,9 @@ import { Link } from "react-router-dom"
 import io from "socket.io-client"
 
 // we need to establish a connection between our browser and the server
-const socket = io("http://localhost:8080")
 
 function Chat() {
+  const socket = useRef(null)
   const chatField = useRef(null)
   // we want to come to the chatfield in case there are many messages. We have to set ref={chatLog}} (JSX line 79)
   //we need to create a reference which makes the we can see the writing area in case of many chat messages
@@ -30,13 +30,17 @@ function Chat() {
 
   //FOR OUR CHAT. We only want to run it the first time the component renders. That's why the dependency array is empty
   useEffect(() => {
+    //we can reestablish the socket connection on the appropriate time
+    socket.current = io("http://localhost:8080")
     //the first argument in socket.on is the name the server emitted to us. The second argument is a function that runs everytime it happens
-    socket.on("chatFromServer", message => {
+    socket.current.on("chatFromServer", message => {
       //we want to update our state
       setState(draft => {
         draft.chatMessages.push(message)
       })
     })
+    //we want to unmount the chat from the server when log out
+    return () => socket.current.disconnect()
   }, [])
 
   useEffect(() => {
@@ -58,7 +62,7 @@ function Chat() {
   function handleSubmit(e) {
     e.preventDefault()
     //send message to Chat server
-    socket.emit("chatFromBrowser", { message: state.fieldValue, token: appState.user.token })
+    socket.current.emit("chatFromBrowser", { message: state.fieldValue, token: appState.user.token })
 
     //we want the field to become blank after typing
     setState(draft => {
