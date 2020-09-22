@@ -15,19 +15,20 @@ import Home from "./components/Home"
 import Footer from "./components/Footer"
 import About from "./components/About"
 import Terms from "./components/Terms"
-//lazy loading (in some cases the user doesn't need to use all components instead of importing them )
+//lazy loading (in some cases the user doesn't need to use all components instead of importing all of them by default)
 // import CreatePost from "./components/CreatePost"
 //when the app loads it will not contain the component
 const CreatePost = React.lazy(() => import("./components/CreatePost"))
-import EditPost from "./components/EditPost"
-import Profile from "./components/Profile"
 //when the app starts the ViewSinglePost compponent does not load per default
 const ViewSinglePost = React.lazy(() => import("./components/ViewSinglePost"))
+const Search = React.lazy(() => import("./components/Search"))
+const Chat = React.lazy(() => import("./components/Chat"))
+import EditPost from "./components/EditPost"
+import Profile from "./components/Profile"
 import FlashMessages from "./components/FlashMessages"
 import NotFound from "./components/NotFound"
-import Search from "./components/Search"
+
 import { CSSTransition } from "react-transition-group"
-import Chat from "./components/Chat"
 
 function Main() {
   const initialState = {
@@ -147,9 +148,13 @@ function Main() {
             </Switch>
           </Suspense>
           <CSSTransition timeout={330} in={state.isSearchOpen} classNames="search-overlay" unmountOnExit>
-            <Search />
+            <Suspense fallback="">
+              <div className="search-overlay">
+                <Search />
+              </div>
+            </Suspense>
           </CSSTransition>
-          <Chat />
+          <Suspense fallback="">{state.loggedIn && <Chat />}</Suspense>
           <Footer />
         </BrowserRouter>
       </DispatchContext.Provider>
