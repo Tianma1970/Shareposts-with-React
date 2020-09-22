@@ -21,7 +21,8 @@ import Terms from "./components/Terms"
 const CreatePost = React.lazy(() => import("./components/CreatePost"))
 import EditPost from "./components/EditPost"
 import Profile from "./components/Profile"
-import ViewSinglePost from "./components/ViewSinglePost"
+//when the app starts the ViewSinglePost compponent does not load per default
+const ViewSinglePost = React.lazy(() => import("./components/ViewSinglePost"))
 import FlashMessages from "./components/FlashMessages"
 import NotFound from "./components/NotFound"
 import Search from "./components/Search"
